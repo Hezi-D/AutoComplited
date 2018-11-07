@@ -66,7 +66,12 @@ $(function () {
         //Draw all the country in the dialog div BUT not show them yet 
         //(display:none)
         for (let index = 0; index < states.length; index++) {
-            $(".dialog").append('<div>' + states[index] + '</div>');
+            //$(".dialog").append('<div>' + states[index] + '</div>');
+            var dialogDiv = document.getElementsByClassName("dialog");
+            var stateDiv = document.createElement("div");
+            stateDiv.setAttribute("id", "div" + index);
+            stateDiv.innerText = states[index];
+            $(".dialog").append(stateDiv);
         }
     }
 
@@ -105,7 +110,10 @@ $(function () {
             arraytStr = states[index].toLowerCase();
 
             if (arraytStr.startsWith(userStr)) {
-                $(".dialog").append('<div>' + states[index] + '</div>');
+                //$(".dialog").append('<div>' + states[index] + '</div>');
+                var stateDiv = document.createElement("div");
+                stateDiv.setAttribute("id", "div" + index);
+                $(".dialog").appendChild(stateDiv);
             }
         }
     }
@@ -128,12 +136,31 @@ $(function () {
         }
     })
 
+    var minRow = 0;
+    var maxRow = states.length;
+    var curRow = 0;
+
     //
     $('input').keydown(function (e) {
+
         if (e.keyCode == 40) {
-            // $('.dialog open div').focus();
-            //alert("hey");
-            $('.dialog open div').setAttribute("id", "fuc");
+            console.log("key Down");
+            if (curRow > 0) {
+                $('#div' + (curRow - 1)).removeClass("fuc");
+            }
+
+            $('#div' + curRow).addClass("fuc");
+            curRow++;
+        }
+
+        else if (e.keyCode == 38) {
+            console.log("key up");
+            if (curRow < maxRow) {
+                $('#div' + (curRow)).removeClass("fuc");
+            }
+
+            $('#div' + (curRow - 1)).addClass("fuc");
+            curRow--;
         }
     });
 
